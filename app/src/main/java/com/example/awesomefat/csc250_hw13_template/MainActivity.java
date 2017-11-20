@@ -5,12 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
 {
     private Button page2Button;
     private Button page3Button;
     private Button page4Button;
+    private EditText enterArrayLength;
+
 
     private MyObject obj;
     private int[] ar;
@@ -21,19 +26,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-        this.ar = new int[1000];
-        for(int i = 0; i < this.ar.length; i++)
-        {
-            this.ar[i] = i+1;
-        }
 
-        this.printArray();
+        //this.printArray();
 
         this.obj = new MyObject("Mike");
         System.out.println(this.obj);
         this.page2Button = (Button)this.findViewById(R.id.page2Button);
         this.page3Button = (Button)this.findViewById(R.id.page3Button);
         this.page4Button = (Button)this.findViewById(R.id.page4Button);
+        this.enterArrayLength = (EditText)this.findViewById(R.id.enterArrayLength);
     }
 
     private void printArray()
@@ -44,12 +45,28 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public static int[] sort(int ar[])
+    {
+        for (int i = 0; i < ar.length - 1; i++)
+        {
+            int index = i;
+            for (int j = i + 1; j < ar.length; j++)
+                if (ar[j] < ar[index])
+                    index = j;
+
+            int smallerNumber = ar[index];
+            ar[index] = ar[i];
+            ar[i] = smallerNumber;
+        }
+        return ar;
+    }
+
     @Override
     protected void onRestart()
     {
         super.onRestart();
         //System.out.println(this.obj.getName());
-        this.printArray();
+        //this.printArray();
     }
 
     //-(IBAction) onNextPageButtonPressed:sender:UIView
@@ -58,7 +75,15 @@ public class MainActivity extends AppCompatActivity
     {
         if(v == this.page2Button)
         {
-            System.out.println(this.ar);
+            //System.out.println(this.ar);
+            Random r = new Random();
+            String len = enterArrayLength.getText().toString();
+            this.ar = new int[Integer.parseInt(len)];
+            for(int i = 0; i < this.ar.length; i++)
+            {
+                this.ar[i] = r.nextInt();
+            }
+
             Intent i = new Intent(this, Screen2.class);
             i.putExtra("myAR", this.ar);
             this.startActivity(i);

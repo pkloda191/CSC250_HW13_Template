@@ -14,7 +14,7 @@ public class Screen2 extends AppCompatActivity
         this.setContentView(R.layout.activity_screen2);
         //String theName = this.getIntent().getStringExtra("myName");
         int[] ar = this.getIntent().getIntArrayExtra("myAR");
-
+        MainActivity.sort(ar);
         ViewGroup theVLL = (ViewGroup)this.findViewById(R.id.theVerticalLinearLayout);
 
         for(int i = 0; i < ar.length; i++)
